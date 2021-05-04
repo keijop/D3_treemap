@@ -22,11 +22,14 @@
 		
 		const url = 'https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/kickstarter-funding-data.json'
 
+		const drawMap = () => { 
+
 		const width = document.querySelector('.dataviz__map').clientWidth
 		const height = width / 2
 
 		let svg = d3.select('.dataviz__map')
 					.append('svg')
+					.style('background-color', '#2F2F02')
 					.attr('height', height)
 					.attr('width', width)
 
@@ -65,7 +68,7 @@
 
 			let treemap = d3.treemap()
 							.size([width, height])
-							.padding(2)
+							.padding(1)
 
 			treemap(root)
 
@@ -93,9 +96,11 @@
 				.on('mouseover', event =>{
 					d3.select('#tooltip')
 						.style('opacity', 1)
+						.style('background-color', `${event.target.getAttribute('fill')}`)
 						.attr('data-value', event.target.getAttribute('data-value'))
 						.html(
-							event.target.getAttribute('data-name')+
+							event.target.getAttribute('data-name') +
+							'<br>' + 'Category: ' + event.target.getAttribute('data-category') + 
 							'<br>USD ' + event.target.getAttribute('data-value')
 							)
 					})
@@ -111,26 +116,35 @@
 						.style('opacity', 0)
 				})
 
-				legend.selectAll('rect')
+				legend.selectAll('g')
 						.data(categories)
 						.enter()
-						.append('rect')
+						.append('g')
 						.attr('class', 'legend-item')
+						.append('text')
+						.text(d => d)
+						.style('transform', (d,i) => `translate(${legend_unit * 4.5}px, ${(legend_unit * i * 2) + legend_unit}px)`)
+
+				legend.selectAll('g')
+						.append('rect')
 						.attr('x', legend_unit)
 						.attr('y', (d,i) => (legend_unit * i * 2) )
 						.attr('height', legend_unit)
 						.attr('width', legend_unit * 3)
 						.attr('fill', d => colorScale(d))
-						.text(d => d)
-						
-						
 				
-
-
-
 			})
+
+		};
 			
-		
+		drawMap()
+
+		window.addEventListener('resize', () => {
+			let nodes = document.getElementsByTagName('svg')
+			let nodeArray = [...nodes]
+			nodeArray.forEach(node => node.remove())
+			drawMap()
+		})
 
 			
 			

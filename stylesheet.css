@@ -5,22 +5,29 @@ html, body{
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
+	font-family: 'Helvetica neue',  Arial, sans-serif;
 }
 
 .dataviz{
+	display: flex;
 	width: 80vw;
-	display: flex;	
 }
 
 .dataviz__map{
 	width: 80%;
-	background-color: #888888;
-	margin: 0;
-	padding: 0;
+	overflow: hidden;
+}
+.dataviz__legend{
+	width: 20%;
+	font-size: 1vw;
 }
 
 #tooltip{
 	position: absolute;
-	color: black;
-	border: 2px solid black;
+	color: #2F2F02;
+	padding: 5px;
+	border: 5px solid #FEFEF3;
+	box-shadow: 5px 5px 5px #2F2F02;
+	border-radius: 10px;
 }
+
