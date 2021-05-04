@@ -3,5 +3,24 @@ html, body{
 	padding: 0;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	flex-direction: column;
+}
+
+.dataviz{
+	width: 80vw;
+	display: flex;	
+}
+
+.dataviz__map{
+	width: 80%;
+	background-color: #888888;
+	margin: 0;
+	padding: 0;
+}
+
+#tooltip{
+	position: absolute;
+	color: black;
+	border: 2px solid black;
 }

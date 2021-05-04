@@ -1,15 +1,148 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 	<title>D3 Tree map</title>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="https://d3js.org/d3.v6.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+
 </head>
 <body>
+
 	<h1 id="title">Kickstarter Pledges</h1>
 	<h3 id="description">Top 100 Most Pledged Kickstarter Campaigns Grouped By Category</h3>
-	<div id="treemap"></div>
+	<div class="dataviz">
+		<div class="dataviz__map"></div>
+		<div class="dataviz__legend"></div>
+	</div>
+
+	<script type="text/javascript">
+		
+		const url = 'https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/kickstarter-funding-data.json'
+
+		const width = document.querySelector('.dataviz__map').clientWidth
+		const height = width / 2
+
+		let svg = d3.select('.dataviz__map')
+					.append('svg')
+					.attr('height', height)
+					.attr('width', width)
+
+		let colorScale = d3.scaleOrdinal()
+							.range(["#fdc2ff", "#a7f5be", "#f5abe3", "#86f1cd", "#ffbcf9",
+								"#e3e496", "#98aef6", "#dd9c84", "#80fffb", "#ffb3b8",
+								"#3bd3d1", "#e9c9ff", "#80b6a8", "#bfccff", "#6ddfff",
+								"#b6a5c2", "#7fc5ff", "#7eb2d1", "#6db3de"])
+
+		let tooltip = d3.select('.dataviz__map')
+						.append('div')
+						.attr('id', 'tooltip')
+						.style('opacity', 0)
+
+		let legend = d3.select('.dataviz__legend')
+						.append('svg')
+						.attr('height', height)
+						.attr('id', 'legend')
+
+		let legend_unit = height / 37 // 19 (categories) + 18 (equal space between) = 37
+
+		/*fetch(url)
+			.then(response => response.json())
+			.then(data => console.log(data))*/
+
+		d3.json(url)
+			.catch(function(error){
+				alert(error)
+			})
+			.then(function(data){
+				console.log(data)
+
+			let root = d3.hierarchy(data)
+							.sum(d => d.value)
+							.sort((a,b) => b.height - a.height || b.value - a.value )
+
+			let treemap = d3.treemap()
+							.size([width, height])
+							.padding(2)
+
+			treemap(root)
+
+			let categories = root.leaves().map(node => node.data.category)
+			categories = new Set (categories)
+			
+			colorScale.domain(categories)
+			console.log(colorScale('Product Design'))
+
+			svg.selectAll('rect')
+				.data(root.leaves())
+				.enter()
+				.append('rect')
+				.attr('x', d => d.x0)
+				.attr('y', d => d.y0)
+				.attr('width', d => d.x1 - d.x0)
+				.attr('height', d => d.y1 -  d.y0)
+				.attr('class', 'tile')
+				.attr('data-value', d => d.data.value)
+				.attr('data-name', d => d.data.name)
+				.attr('data-category', d => d.data.category)
+				.attr('fill', d => colorScale(d.data.category))
+
+				//tooltip functions
+				.on('mouseover', event =>{
+					d3.select('#tooltip')
+						.style('opacity', 1)
+						.attr('data-value', event.target.getAttribute('data-value'))
+						.html(
+							event.target.getAttribute('data-name')+
+							'<br>USD ' + event.target.getAttribute('data-value')
+							)
+					})
+
+				.on('mousemove', event => {
+					d3.select('#tooltip')
+						.style('left', event.pageX + 10 + 'px')
+						.style('top', event.pageY + 10 + 'px')
+				})
+
+				.on('mouseout', event =>{
+					d3.select('#tooltip')
+						.style('opacity', 0)
+				})
+
+				legend.selectAll('rect')
+						.data(categories)
+						.enter()
+						.append('rect')
+						.attr('class', 'legend-item')
+						.attr('x', legend_unit)
+						.attr('y', (d,i) => (legend_unit * i * 2) )
+						.attr('height', legend_unit)
+						.attr('width', legend_unit * 3)
+						.attr('fill', d => colorScale(d))
+						.text(d => d)
+						
+						
+				
+
+
+
+			})
+			
+		
+
+			
+			
+			
+
+		
+
+
+
+
+
+	</script>
 
 	<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
 </body>
