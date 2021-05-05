@@ -9,7 +9,7 @@
 	<link rel="stylesheet" type="text/css" href="stylesheet.css">
 
 </head>
-<body>
+<body onload="drawMap()">
 
 	<h1 id="title">Kickstarter Pledges</h1>
 	<h3 id="description">Top 100 Most Pledged Kickstarter Campaigns Grouped By Category</h3>
@@ -19,152 +19,8 @@
 		<div class="dataviz__tooltip" id="tooltip"></div>
 	</div>
 
-	<script type="text/javascript">
-		
-		const url = 'https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/kickstarter-funding-data.json'
-
-		const drawMap = () => { 
-
-			const vw = window.innerWidth
-			const vh = window.innerHeight
-
-			//find orientation and calculate height from map width
-			const setMapHeight = (w, h, width) => {
-				return w > h ? width / 2 : width * 1.5
-			}
-
-			const width = document.querySelector('.dataviz__map').clientWidth
-			const height = setMapHeight(vw, vh, width)
-
-			let svg = d3.select('.dataviz__map')
-						.append('svg')
-						.style('background-color', '#2F2F02')
-						.attr('height', height)
-						.attr('width', width)
-
-			let colorScale = d3.scaleOrdinal()
-								.range(["#fdc2ff", "#a7f5be", "#f5abe3", "#86f1cd", "#ffbcf9",
-									"#e3e496", "#98aef6", "#dd9c84", "#80fffb", "#ffb3b8",
-									"#3bd3d1", "#e9c9ff", "#80b6a8", "#bfccff", "#6ddfff",
-									"#b6a5c2", "#7fc5ff", "#7eb2d1", "#6db3de"])
-
-
-			let legend = d3.select('.dataviz__legend')
-							.append('svg')
-							.attr('height', height)
-							.attr('id', 'legend')
-
-			let legend_unit = height / 37 // 19 (categories) + 18 (equal space between) = 37
-
-			/*fetch(url)
-				.then(response => response.json())
-				.then(data => console.log(data))*/
-
-			d3.json(url)
-				.catch(function(error){
-					alert(error)
-				})
-				.then(function(data){
-					console.log(data)
-
-				let root = d3.hierarchy(data)
-								.sum(d => d.value)
-								.sort((a,b) => b.height - a.height || b.value - a.value )
-
-				let treemap = d3.treemap()
-								.size([width, height])
-								.padding(1)
-
-				treemap(root)
-
-				let categories = root.leaves().map(node => node.data.category)
-				categories = new Set (categories)
-				
-				colorScale.domain(categories)
-				console.log(colorScale('Product Design'))
-
-				svg.selectAll('rect')
-					.data(root.leaves())
-					.enter()
-					.append('rect')
-					.attr('x', d => d.x0)
-					.attr('y', d => d.y0)
-					.attr('width', d => d.x1 - d.x0)
-					.attr('height', d => d.y1 -  d.y0)
-					.attr('class', 'tile')
-					.attr('data-value', d => d.data.value)
-					.attr('data-name', d => d.data.name)
-					.attr('data-category', d => d.data.category)
-					.attr('fill', d => colorScale(d.data.category))
-
-					//tooltip functions
-					.on('mouseover', event =>{
-						d3.select('#tooltip')
-							.style('opacity', 1)
-							.style('background-color', `${event.target.getAttribute('fill')}`)
-							.attr('data-value', event.target.getAttribute('data-value'))
-							.html(
-								event.target.getAttribute('data-name') +
-								'<br>' + 'Category: ' + event.target.getAttribute('data-category') + 
-								'<br>USD ' + event.target.getAttribute('data-value')
-								)
-						})
-
-
-					.on('mousemove', event => {
-						if (vw > vh) {
-						d3.select('#tooltip')
-							.style('left', event.pageX + 20 + 'px')
-							.style('top', event.pageY - 90 + 'px')
-						}
-					})
-
-					.on('mouseout', event =>{
-						d3.select('#tooltip')
-							.style('opacity', 0)
-					})
-
-					legend.selectAll('g')
-							.data(categories)
-							.enter()
-							.append('g')
-							.append('text')
-							.text(d => d)
-							.style('transform', (d,i) => `translate(${legend_unit * 4.5}px, ${(legend_unit * i * 2) + legend_unit}px)`)
-
-					legend.selectAll('g')
-							.append('rect')
-							.attr('class', 'legend-item')
-							.attr('x', legend_unit)
-							.attr('y', (d,i) => (legend_unit * i * 2) )
-							.attr('height', legend_unit)
-							.attr('width', legend_unit * 3)
-							.attr('fill', d => colorScale(d))
-					
-				});
-
-		};
-			
-		drawMap()
-
-		window.addEventListener('resize', () => {
-			let nodes = document.getElementsByTagName('svg')
-			let nodeArray = [...nodes]
-			nodeArray.forEach(node => node.remove())
-			drawMap()
-		})
-
-			
-			
-			
-
-		
-
-
-
-
-
-	</script>
+	
+	<script type="text/javascript" src="index.js"></script>
 
 	<script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
 </body>
