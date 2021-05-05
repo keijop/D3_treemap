@@ -76,6 +76,8 @@ const url = 'https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/ki
 
 					//tooltip functions
 					.on('mouseover', event =>{
+						event.target.style.stroke = '#FDAC53'
+						event.target.style.opacity = 0.8 
 						d3.select('#tooltip')
 							.style('opacity', 1)
 							.style('background-color', `${event.target.getAttribute('fill')}`)
@@ -97,6 +99,8 @@ const url = 'https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/ki
 					})
 
 					.on('mouseout', event =>{
+						event.target.style.opacity = 1
+						event.target.style.stroke = 'none' 
 						d3.select('#tooltip')
 							.style('opacity', 0)
 					})
