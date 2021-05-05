@@ -1,3 +1,7 @@
+*{
+	box-sizing: border-box;
+	font-family: 'Helvetica neue',  Arial, sans-serif;
+}
 html, body{
 	margin: 0;
 	padding: 0;
@@ -5,29 +9,57 @@ html, body{
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
-	font-family: 'Helvetica neue',  Arial, sans-serif;
 }
 
 .dataviz{
-	display: flex;
 	width: 80vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
 }
 
 .dataviz__map{
 	width: 80%;
-	overflow: hidden;
+	
 }
 .dataviz__legend{
-	width: 20%;
+	width: 15%;
 	font-size: 1vw;
 }
 
-#tooltip{
+
+.dataviz__tooltip{
 	position: absolute;
 	color: #2F2F02;
-	padding: 5px;
+	padding: 10px;
 	border: 5px solid #FEFEF3;
 	box-shadow: 5px 5px 5px #2F2F02;
 	border-radius: 10px;
+	opacity: 0;
+}
+h3{
+	text-align: center;
+}
+
+@media only screen  and (orientation: portrait){
+	
+	.dataviz{
+	width: 90vw;
+	flex-direction: column;
+	}
+
+	.dataviz__tooltip{
+		position: relative;
+		width: 80%;
+		box-shadow: none;
+		border: 2px solid #2F2F02;
+	}
+
+	.dataviz__legend{
+		display: none;
+	}
+
+	
 }
 
