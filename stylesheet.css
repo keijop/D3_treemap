@@ -3,11 +3,11 @@
 	font-family: 'Helvetica neue',  Arial, sans-serif;
 }
 html, body{
+	height: 100%;
 	margin: 0;
 	padding: 0;
 	display: flex;
 	align-items: center;
-	justify-content: center;
 	flex-direction: column;
 }
 
@@ -16,12 +16,11 @@ html, body{
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	overflow: hidden;
 }
 
 .dataviz__map{
 	width: 80%;
-	
+
 }
 .dataviz__legend{
 	width: 15%;
@@ -44,22 +43,31 @@ h3{
 
 @media only screen  and (orientation: portrait){
 	
+	h1{
+		font-size: 4vw;
+		margin-top: 15vw;
+	}
+	h3{
+		font-size: 3vw;
+	}
+
 	.dataviz{
 	width: 90vw;
 	flex-direction: column;
-	}
 
-	.dataviz__tooltip{
-		position: relative;
-		width: 80%;
-		box-shadow: none;
-		border: 2px solid #2F2F02;
 	}
 
 	.dataviz__legend{
 		display: none;
 	}
 
-	
+	.dataviz__tooltip{
+		position: static;
+		width: 80%;
+		box-shadow: none;
+		border: 2px solid #2F2F02;
+		border-radius: 5px;
+
+	}
 }
 
