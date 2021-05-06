@@ -20,25 +20,25 @@ const url = 'https://cdn.freecodecamp.org/testable-projects-fcc/data/tree_map/ki
 						.attr('width', width)
 
 			let colorScale = d3.scaleOrdinal()
-								.range(["#cd4aa1",
-"#69b842",
-"#ac5dd1",
-"#51bc7c",
-"#616ddb",
-"#c6ae3f",
-"#85539e",
-"#97ad5b",
-"#da476d",
-"#4ab29c",
-"#c74b31",
-"#48b1da",
-"#d5822c",
-"#6782c6",
-"#497a38",
-"#d58fcc",
-"#896e2f",
-"#a75069",
-"#da8a6b"])
+								.range(["#c7a773",
+"#b8abf3",
+"#c4e298",
+"#9ec9ff",
+"#cfcd81",
+"#f3d2ff",
+"#97f0c0",
+"#db98b4",
+"#5ecbaa",
+"#ffaaac",
+"#22cedb",
+"#ffd099",
+"#acffe6",
+"#ffcfde",
+"#97b48c",
+"#ffd7c7",
+"#86b5aa",
+"#fffabb",
+"#d1dec2"])
 
 
 			let legend = d3.select('.dataviz__legend')
